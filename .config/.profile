@@ -1,0 +1,4 @@
+# Aliases
+
+source ~/.config/.aliases
+

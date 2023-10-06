@@ -1,0 +1,94 @@
+#!/bin/bash
+
+# Basic
+
+alias v='nvim '
+alias nvd='neovide '
+alias l='ls -lah'
+alias lt='ls -latTr'
+alias rn='ranger '
+
+# Git
+
+alias gp='git pull'
+alias gu='git push'
+alias gcl='git clone'
+alias grm='git rebase master'
+alias grd='git rebase develop'
+alias gmm='git merge master'
+alias gmd='git merge develop'
+alias gb="git checkout -b "
+alias gcm="git checkout master"
+alias gl="git log --graph"
+alias gla="git log --graph --all --decorate"
+alias gln="git log --graph -n "
+alias gls="git log --pretty=format:\"date: %ci; subject: %s;\""
+alias glsn="git log --pretty=format:\"date: %ci; subject: %s;\" -n "
+alias gd="git reset --hard HEAD"
+alias gm="git commit -m "
+alias gsm="git commit -S -m "
+alias gmc="git commit --continue"
+alias grc="git rebase --continue"
+alias gpb="git branch | grep -v  \"^*\" | xargs git branch -D"
+
+# Directories
+
+alias pd='cd ~/projects && ls'
+alias nd='cd ~/notes && ls'
+alias confd='cd ~/.config && ls'
+
+# History
+
+alias hf="history | grep "
+
+# Youtube
+
+function wy() {
+  mpv --ytdl-format="bestvideo[height<=?$1]+bestaudio/best" --demuxer-max-bytes="50M" --demuxer-max-back-bytes="10M" "$2"
+}
+
+alias ly='mpv --demuxer-max-bytes="30M" --ytdl-format="bestaudio/best" '
+
+function dly() {
+  yt-dlp --format="bestvideo[height<=?$1]+bestaudio/best" "$2"
+}
+
+function dlya() {
+  yt-dlp -x --audio-format mp3 --audio-quality 3 --format="bestaudio/best" "$1"
+}
+
+# Media
+
+alias lm='mpv --no-audio-display '
+
+# Config
+
+alias ca='v ~/.config/.aliases'
+alias cz='v ~/.zshrc'
+alias cv='nvd ~/.vimrc'
+
+# Yarn
+
+alias y='yarn '
+
+
+# Devices
+
+alias dl='diskutil list'
+alias ud2='diskutil unmountDisk /dev/disk2'
+
+# Misc
+
+alias cm='ly --volume="50" --demuxer-max-bytes="20M" "https://www.youtube.com/watch?t=12&v=2uKxEoQQiSQ"'
+
+function kop() {
+  lsof -i "tcp:$1" | awk '{ print $2  }' | tail -1 | xargs kill -9
+}
+
+runNTimes() {
+    number=$1
+    shift
+    for i in `seq $number`; do
+      $@
+    done
+}
