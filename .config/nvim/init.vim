@@ -1,0 +1,4 @@
+# Read config
+
+so ~/.vimrc
+
