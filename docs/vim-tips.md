@@ -153,6 +153,115 @@ Leader is the default `\`.
 Typing `<div>` in HTML/JSX/TSX adds `</div>`; renaming an opening tag renames
 the closing one.
 
+## Git (IntelliJ-style)
+
+Three tools, each covering part of what IntelliJ does:
+- **codediff.nvim**: the review windows (Changes, Compare, History, Merge),
+  using VS Code's diff engine with word- and character-level highlights.
+- **gitsigns.nvim**: change markers in the margin, actions on single changes,
+  and blame.
+- **fugitive**: `:Git …` commands.
+
+Hunk keys mean the same thing in normal buffers and inside CodeDiff:
+`]c` / `[c` move, `<leader>hs` stages, `<leader>hr` reverts.
+
+### IntelliJ → here
+
+| IntelliJ | Key / command |
+| --- | --- |
+| Commit / Changes window | `<leader>gd` (`:CodeDiff`); staged only: `:CodeDiff --staged` |
+| Compare with branch / revision | `<leader>gD`, then type e.g. `master...` (Tab completes branches) |
+| Show History (file) | `<leader>gh` (`:CodeDiff history %`) |
+| Show History for selection | select lines, then `<leader>gh` |
+| Repository log | `<leader>gH` (`:CodeDiff history`); fuzzy: `<leader>gc` |
+| Resolve conflicts | `<leader>gm` (`:CodeDiff merge %`) |
+| Gutter markers, Rollback, Show Diff popup | gitsigns, see below |
+| Annotate | `<leader>gB` (`:Git blame`), or `<leader>hb` for one line |
+| Git status / branches (fuzzy) | `<leader>gs` / `<leader>gb` (fzf-lua) |
+
+### In any file (gitsigns)
+
+Margin markers: `┃` added or changed (in different colours), `▁` / `▔` lines deleted
+below / above, `~` changed and partly deleted, `┆` untracked file. The sign
+column is 2 wide, so a git marker and an error marker can share a line.
+
+| Key | Action |
+| --- | --- |
+| `]c` / `[c` | Next / previous change (in diff mode: Vim's own `]c`) |
+| `<leader>hp` | Preview the change in a popup (like IntelliJ's gutter click) |
+| `<leader>hi` | Preview the change inline |
+| `<leader>hs` | Stage the change; on an already-staged change it unstages |
+| `<leader>hr` | Revert (roll back) the change |
+| `<leader>hs` / `<leader>hr` in visual mode | Stage / revert only the selected lines |
+| `<leader>hS` / `<leader>hR` | Stage / revert the whole file |
+| `<leader>hb` | Blame for this line (popup with the full commit) |
+| `<leader>tb` | Toggle blame shown at the end of the current line |
+| `<leader>hd` | Quick side-by-side diff of this file against the index |
+| `ih` | Text object: the change under the cursor (`vih`, `dih`, `yih`) |
+
+### Inside a CodeDiff window
+
+It opens in a new tab; `q` closes it, `g?` lists every key.
+
+**Diff panes**
+
+| Key | Action |
+| --- | --- |
+| `]c` / `[c` | Next / previous change |
+| `]f` / `[f` | Next / previous file |
+| `<leader>hs` / `<leader>hu` / `<leader>hr` | Stage / unstage / discard the change under cursor |
+| `-` | Stage / unstage the whole file |
+| `gS` | Switch between the staged and unstaged diff of this file |
+| `do` / `dp` | Take the change from / push it to the other pane |
+| `t` | Toggle side-by-side / inline layout |
+| `gc` | Fold unchanged code (compact mode) |
+| `gm` | Line up a moved block across panes |
+| `gf` | Open this file in a normal tab to edit it |
+| `<leader>b` / `<leader>e` | Hide / focus the file list |
+
+**File list (explorer)**
+
+| Key | Action |
+| --- | --- |
+| `Enter` | Show the diff of that file |
+| `-` | Stage / unstage the file |
+| `S` / `U` | Stage all / unstage all |
+| `X` | Discard the file's changes |
+| `i` | Switch list / tree view |
+| `R` | Refresh |
+| `K` | Show the full path |
+
+**History** (`<leader>gh`, `<leader>gH`): `Enter` expands a commit or opens a
+file's diff against its parent; `i` switches list / tree; `R` refreshes.
+
+**Merge conflicts** (`<leader>gm`): three panes, incoming (theirs) on the
+left, current (ours) on the right, result at the bottom.
+
+| Key | Action |
+| --- | --- |
+| `]x` / `[x` | Next / previous conflict |
+| `<leader>ct` / `<leader>co` | Accept incoming / current for this conflict |
+| `<leader>cb` | Accept both |
+| `<leader>cx` | Discard both (keep the base) |
+| `<leader>cT` `cO` `cB` `cX` | The same, for the whole file |
+
+### Optional: use CodeDiff for `git difftool` / `git mergetool`
+
+Not configured. To make the git commands open CodeDiff:
+
+```sh
+git config --global diff.tool codediff
+git config --global difftool.codediff.cmd 'nvim "$LOCAL" "$REMOTE" +"CodeDiff --exit-on-close file $LOCAL $REMOTE"'
+git config --global merge.tool codediff
+git config --global mergetool.codediff.cmd 'nvim "$MERGED" -c "CodeDiff --exit-on-close merge \"$MERGED\""'
+```
+
+Notes:
+- On first use CodeDiff downloads two helpers from its GitHub releases: the
+  diff library and a file watcher that refreshes the view live.
+- Pull-request review (`:CodeDiff pr 123`) is for GitHub repos, so it doesn't
+  apply to Phabricator.
+
 ## Moving between splits and tmux panes (vim-tmux-navigator)
 
 | Key     | Action                                                   |
@@ -250,6 +359,7 @@ Gotchas:
 - `~/.config/nvim/lua/config/lazy.lua`: lazy.nvim bootstrap
 - `~/.config/nvim/lua/plugins/init.lua`: most plugins (NERDTree, ALE, treesitter, vim-tmux-navigator, themes…)
 - `~/.config/nvim/lua/plugins/picker.lua`: fzf-lua (Telescope profile + keys)
+- `~/.config/nvim/lua/plugins/git.lua`: codediff + gitsigns (keys for git)
 - `~/.config/nvim/lua/plugins/completion.lua`: blink.cmp
 - `~/.config/nvim/lua/plugins/lsp.lua`: mason + vtsls
 - `~/.local/share/nvim/lazy/`: installed plugins
