@@ -1,0 +1,8 @@
+# TPM clones plugins here (prefix I installs them again)
+.config/tmux/plugins/
+
+# Backups
+*.bak
+*.bak-*
+
+.DS_Store

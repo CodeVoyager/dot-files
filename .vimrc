@@ -22,61 +22,53 @@ set relativenumber             " Show relative line numbers
 
 " Plugins
 
-call plug#begin()
-  Plug 'scrooloose/nerdtree'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
-  Plug 'ryanoasis/vim-devicons'
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'easymotion/vim-easymotion'
-  Plug 'tpope/vim-fugitive'
-  Plug 'leafgarland/typescript-vim'
-
-  if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'dense-analysis/ale'
-    Plug 'norcalli/nvim-colorizer.lua'
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    Plug 'nvim-lualine/lualine.nvim'
-    Plug 'kyazdani42/nvim-web-devicons'
-"   Plug 'sbdchd/neoformat'
-    Plug 'dyng/ctrlsf.vim'
-    
-
-    Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-    Plug 'ayu-theme/ayu-vim'
-    Plug 'rafamadriz/neon'
-    Plug 'sainnhe/sonokai'
-  else
+if has('nvim')
+  " Neovim: plugins are managed by lazy.nvim (~/.config/nvim/lua/plugins/)
+  lua require("config.lazy")
+else
+  call plug#begin()
+    Plug 'scrooloose/nerdtree'
+    Plug 'Xuyuanp/nerdtree-git-plugin'
+    Plug 'ryanoasis/vim-devicons'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'easymotion/vim-easymotion'
+    Plug 'tpope/vim-fugitive'
+    Plug 'leafgarland/typescript-vim'
     Plug 'quramy/tsuquyomi'
-  endif
-call plug#end()
+  call plug#end()
+endif
 
 " Remaps
 " NERDTree
 
 nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-e> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 
 " File search
 if has('nvim')
   nmap     <C-F>f <Plug>CtrlSFPrompt
-" nmap     <C-F>n <Plug>CtrlSFCwordPath
-" nmap     <C-F>p <Plug>CtrlSFPwordPath
-  let g:ctrlsf_backend = 'rg'
+  nmap     <C-F>n <Plug>CtrlSFCwordPath
+  nmap     <C-F>p <Plug>CtrlSFPwordPath
 " let g:ctrlsf_debug_mode = 1
 endif
 
 
-" FZF
+" FZF (Neovim uses fzf-lua instead: ~/.config/nvim/lua/plugins/picker.lua)
 
-nmap <C-F>z :FZF<CR>
-nmap <C-P> :FZF<CR>
+if !has('nvim')
+  nmap <C-F>z :FZF<CR>
+  nmap <C-P> :FZF<CR>
+endif
 
 " ALE
 if has('nvim')
-  nmap     <C-F>g <C-w>v :ALEGoToDefinition<CR>
+  " Neovim LSP (vtsls) for definitions; vim.diagnostic jumps cover both
+  " LSP errors and ALE's eslint errors
+  nmap     <C-F>g <C-w>v<cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <silent> <leader>aj <cmd>lua vim.diagnostic.jump({ count = 1, float = true })<CR>
+  nmap <silent> <leader>ak <cmd>lua vim.diagnostic.jump({ count = -1, float = true })<CR>
 endif
 
 " Resizes
@@ -104,58 +96,9 @@ set background=dark
 
 " Autocomplete
 if has('nvim')
-  let g:deoplete#enable_at_startup = 1
-  let g:ale_fixers = {
-    \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-    \   'json': ['prettier', 'eslint'],
-    \   'javascript': ['prettier', 'eslint'],
-    \   'typescript': ['prettier', 'eslint'],
-    \   'typescriptreact': ['prettier', 'eslint'],
-  \}
-  let g:ale_javascript_eslint_use_global = 1
-  let g:ale_javascript_tsserver_use_global = 1
-  let g:ale_completion_enabled = 1
   let g:neoformat_try_node_exe = 1
 endif
 
-
-" LUA
-if has('nvim')
-lua <<EOF
-  local status, ts = pcall(require, "nvim-treesitter.configs")
-
-  if (not status) then return end
-
-  ts.setup {
-    highlight = {
-      enable = true,
-      disable = {},
-    },
-    indent = {
-      enable = true,
-      disable = {},
-    },
-    ensure_installed = {
-      "tsx",
-      "typescript",
-      "javascript",
-      "json",
-      "yaml",
-      "css",
-      "html",
-      "markdown",
-      "lua"
-    },
-    autotag = {
-      enable = true,
-    },
-  }
-
-  local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-
-  parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
-EOF
-endif
 
 " Theme settings
 

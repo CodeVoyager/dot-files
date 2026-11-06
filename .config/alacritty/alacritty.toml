@@ -1,0 +1,14 @@
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"
+
+# A Nerd Font is needed for the icons in Neovim (NERDTree, devicons, lualine).
+# "Mono" keeps icons one cell wide.
+# Fira Mono has no italic faces (only Regular, Medium, Bold), so italics render upright.
+[font]
+normal = { family = "FiraMono Nerd Font Mono", style = "Regular" }
+bold = { family = "FiraMono Nerd Font Mono", style = "Bold" }
+italic = { family = "FiraMono Nerd Font Mono", style = "Regular" }
+bold_italic = { family = "FiraMono Nerd Font Mono", style = "Bold" }
