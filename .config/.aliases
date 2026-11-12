@@ -36,7 +36,7 @@ alias gpb="git branch | grep -v  \"^*\" | xargs git branch -D"
 
 # Directories
 
-alias pd='cd ~/projekty && ls'
+alias pd='cd ~/projects && ls'
 alias nd='cd ~/notes && ls'
 alias confd='cd ~/.config && ls'
 

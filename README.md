@@ -35,9 +35,40 @@ Files are laid out as they sit under `$HOME`, so `.vimrc` here is `~/.vimrc` and
 1. **Tools**
 
    ```sh
-   brew install neovim tmux fzf ripgrep git node
-   brew install --cask alacritty font-fira-mono-nerd-font
+   brew install tmux fzf ripgrep git node
+   brew install --cask font-fira-mono-nerd-font
    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+   ```
+
+   Neovim comes from the official release tarball
+   ([install docs](https://neovim.io/doc/install/)), not Homebrew. On Apple
+   Silicon:
+
+   ```sh
+   curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-macos-arm64.tar.gz
+   rm -rf ~/.local/nvim
+   mkdir -p ~/.local
+   tar -C ~/.local -xzf nvim-macos-arm64.tar.gz
+   mv ~/.local/nvim-macos-arm64 ~/.local/nvim
+   mkdir -p ~/.local/bin
+   ln -sf ~/.local/nvim/bin/nvim ~/.local/bin/nvim
+   rm nvim-macos-arm64.tar.gz
+   ```
+
+   `~/.local/bin` is already on `PATH` via `.zshrc`. On Intel Macs use
+   `nvim-macos-x86_64.tar.gz` instead.
+
+   Alacritty's Homebrew cask is disabled (it fails the macOS Gatekeeper
+   check), so install the `.dmg` from the
+   [releases page](https://github.com/alacritty/alacritty/releases) instead:
+
+   ```sh
+   curl -LO https://github.com/alacritty/alacritty/releases/download/v0.17.0/Alacritty-v0.17.0.dmg
+   hdiutil attach Alacritty-v0.17.0.dmg -nobrowse -quiet
+   cp -R /Volumes/Alacritty/Alacritty.app /Applications/
+   hdiutil detach /Volumes/Alacritty -quiet
+   rm Alacritty-v0.17.0.dmg
+   xattr -dr com.apple.quarantine /Applications/Alacritty.app
    ```
 
    Also install [nvm](https://github.com/nvm-sh/nvm). Neovim's TypeScript server
@@ -46,8 +77,8 @@ Files are laid out as they sit under `$HOME`, so `.vimrc` here is `~/.vimrc` and
 2. **Copy the files into place** (back up existing ones first):
 
    ```sh
-   git clone git@github.com:CodeVoyager/dot-files.git ~/projekty/dot-files
-   cd ~/projekty/dot-files
+   git clone git@github.com:CodeVoyager/dot-files.git ~/projects/dot-files
+   cd ~/projects/dot-files
    cp .zshrc .vimrc ~/
    mkdir -p ~/.config
    cp -R .config/. ~/.config/
@@ -74,7 +105,7 @@ These are copies, not symlinks. After changing a config locally, copy it back
 and commit:
 
 ```sh
-cd ~/projekty/dot-files
+cd ~/projects/dot-files
 cp ~/.vimrc .vimrc        # etc. for each changed file
 git diff                  # review
 ```
