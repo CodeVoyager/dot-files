@@ -117,6 +117,17 @@ return {
   -- Colorschemes (load first so `colorscheme` in init.lua works)
   { "folke/tokyonight.nvim", branch = "main", priority = 1000 },
   { "ayu-theme/ayu-vim", priority = 1000 },
+  { "rebelot/kanagawa.nvim", priority = 1000 },
   { "rafamadriz/neon", priority = 1000 },
   { "sainnhe/sonokai", priority = 1000 },
+  { "sainnhe/everforest", priority = 1000 },
+  {
+    "navarasu/onedark.nvim",
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      require('onedark').setup {
+        style = 'deep'
+      }
+    end
+  }
 }

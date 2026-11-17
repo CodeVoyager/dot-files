@@ -9,6 +9,7 @@ Leader is the default `\`, so `<leader>ff` means `\` `f` `f`.
 - [Editing](#editing): completion, auto-closing tags
 - [Code navigation (LSP)](#code-navigation-lsp): definitions, references, rename, code actions
 - [Problems, linting and formatting](#problems-linting-and-formatting): diagnostics, ALE
+- [Vallow (Fallow in Neovim)](#vallow-fallow-in-neovim): findings panel, search, next/prev
 - [Git (IntelliJ-style)](#git-intellij-style): codediff, gitsigns, fugitive
 - [Setup and maintenance](#setup-and-maintenance): plugin commands, where the config lives
 
@@ -332,6 +333,22 @@ problems, so the same keys cover both.
 - `:ALEInfo` shows which linters/fixers run for the current file.
 - Uses the project's own `node_modules` eslint/prettier first.
 
+## Vallow (Fallow in Neovim)
+
+[vallow.nvim](https://github.com/xeind/vallow.nvim) surfaces
+[Fallow](https://crates.io/crates/fallow-cli) findings inside Neovim. Needs the
+`fallow` binary on `PATH` (`cargo install fallow-cli`).
+
+| Key           | Action                         |
+| ------------- | ------------------------------ |
+| `<leader>V`   | Toggle the Vallow panel        |
+| `<leader>vr`  | Refresh findings               |
+| `<leader>vs`  | Search findings                |
+| `<leader>va`  | Act on the current finding     |
+| `]v` / `[v`   | Next / previous finding        |
+
+Also: `:Vallow`, `:VallowRefresh`, `:VallowSearch`.
+
 ## Git (IntelliJ-style)
 
 Three tools, each covering part of what IntelliJ does:
@@ -508,8 +525,10 @@ nvim-treesitter is pinned to `master`; `main` is an incompatible rewrite.
 - `~/.config/nvim/lua/plugins/init.lua`: most plugins (NERDTree, ALE, treesitter, vim-tmux-navigator, themes…)
 - `~/.config/nvim/lua/plugins/picker.lua`: fzf-lua (Telescope profile + keys)
 - `~/.config/nvim/lua/plugins/git.lua`: codediff + gitsigns (keys for git)
+- `~/.config/nvim/lua/plugins/vallow.lua`: vallow.nvim (Fallow findings)
 - `~/.config/nvim/lua/plugins/completion.lua`: blink.cmp
 - `~/.config/nvim/lua/plugins/lsp.lua`: mason + vtsls
+- Active colorscheme: `everforest` (set in `init.lua`; others stay installed)
 - `~/.local/share/nvim/lazy/`: installed plugins
 - `~/.local/share/nvim/mason/`: installed language servers
 - Backups from the migrations: `~/.config/nvim/init.vim.bak`,

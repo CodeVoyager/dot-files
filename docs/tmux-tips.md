@@ -182,9 +182,15 @@ In `~/.config/tmux/tmux.conf`:
 ```tmux
 set -g focus-events on        # Neovim autoread / focus events (checkhealth asked for it)
 set -g history-limit 50000    # was 2000 lines
+set -g base-index 1           # windows/panes match the keyboard row
+setw -g pane-base-index 1
+set -g renumber-windows on
+bind h/j/k/l select-pane …    # prefixed pane moves (C-h/j/k/l still via vim-tmux-navigator)
 # + TPM with tmux-sensible, tmux-resurrect, tmux-continuum (see Plugins above)
 # + vim-tmux-navigator (C-h/j/k/l across tmux and Neovim), clear screen on P C-l
 ```
+
+Note: `bind l` replaces the default "last window" (`P l`).
 
 Already fine, no change needed: `escape-time` is 10 ms, true colour works
 (my terminal reports `RGB`), and `default-terminal` is `tmux-256color`.
@@ -197,12 +203,6 @@ then `P R` to reload.
 ### Quality-of-life defaults most configs change
 
 ```tmux
-# Number windows and panes from 1 so they match the keyboard row
-set -g base-index 1
-setw -g pane-base-index 1
-# Close gaps in window numbers when one is closed
-set -g renumber-windows on
-
 # New splits and windows open in the current pane's directory
 bind '"' split-window -v -c "#{pane_current_path}"
 bind %   split-window -h -c "#{pane_current_path}"
@@ -219,17 +219,7 @@ set -g detach-on-destroy off
 setw -g mode-keys vi
 bind -T copy-mode-vi v send -X begin-selection
 bind -T copy-mode-vi y send -X copy-pipe-and-cancel
-
-# P h/j/k/l to move between panes
-bind h select-pane -L
-bind j select-pane -D
-bind k select-pane -U
-bind l select-pane -R
 ```
-
-Note: `bind l` replaces the default "last window" (`P l`). Since
-vim-tmux-navigator already gives `C-h/j/k/l` without the prefix, these are
-only worth it if you want prefixed versions too.
 
 ### Clipboard
 

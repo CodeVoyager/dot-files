@@ -10,12 +10,12 @@ Files are laid out as they sit under `$HOME`, so `.zshrc` here is `~/.zshrc` and
 | Path | What |
 | --- | --- |
 | `.zshrc` | oh-my-zsh, nvm, Android / Java / pnpm paths; sources the two files below |
-| `.config/.aliases` | Shell aliases (git, directories, Xcode switching, …) |
+| `.config/.aliases` | Shell aliases (git, directories, …); optionally sources `.aliases-xcode` |
 | `.config/.profile` | Sources `.aliases` (for shells that read a profile) |
 | `.config/nvim/` | Neovim: `init.lua` has options, keymaps and the colorscheme; plugins in `lua/plugins/` (lazy.nvim) |
 | `.config/nvim/lazy-lock.json` | Exact plugin versions; `:Lazy restore` installs these |
 | `.config/tmux/tmux.conf` | tmux settings + TPM plugins (sensible, resurrect, continuum, vim-tmux-navigator) |
-| `.config/alacritty/alacritty.toml` | Alacritty: FiraMono Nerd Font, Shift+Enter binding |
+| `.config/alacritty/alacritty.toml` | Alacritty: FiraMono Nerd Font, size 16, Shift+Enter binding |
 | `docs/vim-tips.md` | Cheat sheet for this Neovim setup (completion, LSP, fzf-lua, …) |
 | `docs/tmux-tips.md` | Cheat sheet for this tmux setup |
 
@@ -27,7 +27,8 @@ Files are laid out as they sit under `$HOME`, so `.zshrc` here is `~/.zshrc` and
 - **Lint / format:** ALE with eslint and prettier
 - **Fuzzy finder:** fzf-lua with the Telescope profile
 - **Syntax:** nvim-treesitter (pinned to `master`)
-- **Also:** NERDTree, vim-tmux-navigator, tokyonight
+- **Code intel UI:** vallow.nvim (Fallow findings in the editor; needs `fallow` on `PATH`)
+- **Also:** NERDTree, vim-tmux-navigator, everforest (plus ayu / tokyonight / kanagawa / sonokai / onedark)
 
 ## Setting up a new Mac
 
@@ -41,6 +42,15 @@ Files are laid out as they sit under `$HOME`, so `.zshrc` here is `~/.zshrc` and
 
    Also install [nvm](https://github.com/nvm-sh/nvm). Neovim's TypeScript server
    runs on the Node it provides.
+
+   [Fallow](https://crates.io/crates/fallow-cli) (used by vallow.nvim and the
+   Cursor MCP): install Rust, then:
+
+   ```sh
+   cargo install fallow-cli fallow-mcp
+   ```
+
+   Ensure `~/.cargo/bin` is on `PATH` (rustup's `~/.profile` usually does this).
 
 2. **Copy the files into place** (back up existing ones first):
 

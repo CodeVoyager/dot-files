@@ -9,6 +9,7 @@ vim.opt.clipboard:append("unnamedplus")
 vim.opt.spell = true
 vim.opt.spelllang = "en_gb"
 vim.opt.scrolloff = 10
+-- vim.opt.backup = true
 
 -- Redraw time
 
@@ -99,8 +100,14 @@ vim.api.nvim_create_autocmd("BufEnter", {
 vim.opt.background = "dark"
 vim.opt.termguicolors = true
 
-vim.cmd.colorscheme("ayu")
--- vim.cmd.colorscheme("tokyonight-storm")
+-- vim.cmd.colorscheme("ayu")
+-- vim.cmd.colorscheme("sonokai")
+-- vim.cmd.colorscheme("tokyonight")
+-- vim.cmd.colorscheme("kanagawa-dragon")
+-- vim.cmd.colorscheme("kanagawa")
+-- vim.cmd.colorscheme("onedark")
+vim.cmd.colorscheme("everforest")
+-- require('onedark').load()
 
 -- Neovide
 
@@ -137,3 +144,4 @@ require("lualine").setup({
     theme = "auto",
   },
 })
+
