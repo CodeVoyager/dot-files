@@ -1,5 +1,5 @@
 -- Fuzzy picker: fzf-lua with the "telescope" profile (Telescope's look and keys).
--- Uses the fzf and rg binaries from Homebrew. Plain Vim keeps :FZF via vim-plug.
+-- Uses the fzf and rg binaries from Homebrew.
 return {
   {
     "ibhagwan/fzf-lua",

@@ -2,7 +2,7 @@
 
 My macOS terminal setup: zsh, Neovim, tmux and Alacritty.
 
-Files are laid out as they sit under `$HOME`, so `.vimrc` here is `~/.vimrc` and
+Files are laid out as they sit under `$HOME`, so `.zshrc` here is `~/.zshrc` and
 `.config/tmux/tmux.conf` is `~/.config/tmux/tmux.conf`.
 
 ## What's inside
@@ -12,8 +12,7 @@ Files are laid out as they sit under `$HOME`, so `.vimrc` here is `~/.vimrc` and
 | `.zshrc` | oh-my-zsh, nvm, Android / Java / pnpm paths; sources the two files below |
 | `.config/.aliases` | Shell aliases (git, directories, Xcode switching, …) |
 | `.config/.profile` | Sources `.aliases` (for shells that read a profile) |
-| `.vimrc` | Options and keymaps shared by Vim and Neovim. Vim uses vim-plug; Neovim loads lazy.nvim |
-| `.config/nvim/` | Neovim: `init.vim` sources `~/.vimrc`; plugins in `lua/plugins/` (lazy.nvim) |
+| `.config/nvim/` | Neovim: `init.lua` has options, keymaps and the colorscheme; plugins in `lua/plugins/` (lazy.nvim) |
 | `.config/nvim/lazy-lock.json` | Exact plugin versions; `:Lazy restore` installs these |
 | `.config/tmux/tmux.conf` | tmux settings + TPM plugins (sensible, resurrect, continuum, vim-tmux-navigator) |
 | `.config/alacritty/alacritty.toml` | Alacritty: FiraMono Nerd Font, Shift+Enter binding |
@@ -77,9 +76,9 @@ Files are laid out as they sit under `$HOME`, so `.vimrc` here is `~/.vimrc` and
 2. **Copy the files into place** (back up existing ones first):
 
    ```sh
-   git clone git@github.com:CodeVoyager/dot-files.git ~/projects/dot-files
-   cd ~/projects/dot-files
-   cp .zshrc .vimrc ~/
+   git clone git@github.com:CodeVoyager/dot-files.git ~/projekty/dot-files
+   cd ~/projekty/dot-files
+   cp .zshrc ~/
    mkdir -p ~/.config
    cp -R .config/. ~/.config/
    ```
@@ -96,16 +95,13 @@ Files are laid out as they sit under `$HOME`, so `.vimrc` here is `~/.vimrc` and
    mason installs the TypeScript server (vtsls). Run `:checkhealth` if anything
    looks off.
 
-5. **Plain Vim (optional):** install
-   [vim-plug](https://github.com/junegunn/vim-plug), then run `:PlugInstall`.
-
 ## Updating this repo
 
 These are copies, not symlinks. After changing a config locally, copy it back
 and commit:
 
 ```sh
-cd ~/projects/dot-files
-cp ~/.vimrc .vimrc        # etc. for each changed file
+cd ~/projekty/dot-files
+cp ~/.config/nvim/init.lua .config/nvim/init.lua   # etc. for each changed file
 git diff                  # review
 ```

@@ -6,9 +6,9 @@ return {
     version = "1.*",
     dependencies = { "rafamadriz/friendly-snippets" },
     opts = {
-      -- "default": <C-y> accept, <C-n>/<C-p> or <Up>/<Down> select, <C-space> open,
-      -- <C-e> close, <C-k> signature help. Alternatives: "super-tab", "enter".
-      keymap = { preset = "default" },
+      -- "super-tab": <Tab> accept, <C-n>/<C-p> or <Up>/<Down> select, <C-space> open,
+      -- <C-e> close, <C-k> signature help. Alternatives: "default" (<C-y> accepts), "enter".
+      keymap = { preset = "super-tab" },
       completion = {
         documentation = { auto_show = true, auto_show_delay_ms = 300 },
       },

@@ -68,7 +68,7 @@ alias lm='mpv --no-audio-display '
 
 alias ca='v ~/.config/.aliases'
 alias czz='v ~/.zshrc'
-alias cv='nvim ~/.vimrc'
+alias cv='nvim ~/.config/nvim/init.lua'
 
 # Yarn
 

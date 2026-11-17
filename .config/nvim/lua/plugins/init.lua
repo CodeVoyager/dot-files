@@ -1,14 +1,22 @@
--- Neovim plugins, migrated from vim-plug in ~/.vimrc.
--- Plain Vim still uses vim-plug (see the `if !has('nvim')` block in ~/.vimrc).
--- Keymaps, NERDTree autocmds, the colorscheme and Neovide settings stay in ~/.vimrc;
--- it calls require("config.lazy") at the point where vim-plug used to load,
--- so everything below is on the runtimepath by the time the rest of ~/.vimrc runs.
+-- Neovim plugins.
+-- Keymaps, NERDTree autocmds, the colorscheme and Neovide settings are in init.lua;
+-- it calls require("config.lazy") before them, so everything below is on the
+-- runtimepath by the time the rest of init.lua runs.
 return {
   -- File tree
   { "preservim/nerdtree" },
   { "Xuyuanp/nerdtree-git-plugin", dependencies = { "preservim/nerdtree" } },
   -- vim-devicons must load after the plugins it decorates
-  { "ryanoasis/vim-devicons", dependencies = { "preservim/nerdtree" } },
+  {
+    "ryanoasis/vim-devicons",
+    dependencies = { "preservim/nerdtree" },
+    config = function(plugin)
+      -- NERDTree sources nerdtree_plugin/*.vim only once, when it loads itself.
+      -- lazy.nvim adds vim-devicons to the runtimepath after that, so its
+      -- NERDTree hook never runs and the tree shows no icons. Source it here.
+      vim.cmd.source(plugin.dir .. "/nerdtree_plugin/webdevicons.vim")
+    end,
+  },
 
   -- Search / navigation
   { "easymotion/vim-easymotion" },
@@ -106,7 +114,7 @@ return {
   { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
   { "nvim-tree/nvim-web-devicons" },
 
-  -- Colorschemes (load first so `colorscheme` in ~/.vimrc works)
+  -- Colorschemes (load first so `colorscheme` in init.lua works)
   { "folke/tokyonight.nvim", branch = "main", priority = 1000 },
   { "ayu-theme/ayu-vim", priority = 1000 },
   { "rafamadriz/neon", priority = 1000 },
