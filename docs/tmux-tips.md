@@ -1,8 +1,8 @@
 # tmux tips (my setup)
 
 Written 2026-11-06. tmux 3.8. Config: `~/.config/tmux/tmux.conf`.
-Plugins (TPM): tmux-sensible, tmux-resurrect, tmux-continuum,
-vim-tmux-navigator. Mouse is on (3.8 default). Prefix is `C-b` (written `P`
+Plugins (TPM): tmux-sensible, tmux-gruvbox (dark256), tmux-resurrect,
+tmux-continuum, vim-tmux-navigator. Mouse is on (3.8 default). Prefix is `C-b` (written `P`
 below: press `C-b`, let go, then the key). Every key here was checked
 against `tmux list-keys` on 2026-11-06.
 
